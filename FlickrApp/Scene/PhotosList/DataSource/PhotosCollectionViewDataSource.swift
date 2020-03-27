@@ -76,26 +76,19 @@ class PhotosCollectionViewDataSource: NSObject,  UICollectionViewDataSource, UIC
         }
     }
     
-    func tableView(_ tableView: UICollectionView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        guard !itemsForCollection.isEmpty else {
-            return Constant.heightOfSkeltonCell
-        }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if let item = itemsForCollection[indexPath.row] {
             switch item {
             case .cellItem:
-                return Constant.heightOfPhotoCell
+                let widthAndHeight = collectionView.bounds.width / 2.1
+                return CGSize(width: widthAndHeight, height: widthAndHeight)
             case .error, .empty:
-                return tableView.frame.size.height
+                return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
             case .search:
-                return Constant.heightOfSearchTermCell
+                return CGSize(width: collectionView.bounds.width, height: Constant.heightOfSearchTermCell)
             }
         }
-        return Constant.heightOfSkeltonCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let widthAndHeight = collectionView.bounds.width / 2.1
-        return CGSize(width: widthAndHeight, height: widthAndHeight)
+        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
     }
     
 }

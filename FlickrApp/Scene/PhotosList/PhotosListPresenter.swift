@@ -12,6 +12,8 @@ protocol PhotosListPresenterInput: BasePresenterInput {
     var router: PhotosListRoutable { get }
     func search(for text: String)
     func loadMoreData(_ page: Int)
+    func getSearchHistory()
+
 }
 
 protocol PhotosListPresenterOutput: BasePresenterOutput {
@@ -44,7 +46,10 @@ class PhotosListPresenter {
 
 // MARK: - PhotosListPresenterInput
 extension PhotosListPresenter: PhotosListPresenterInput {
+
     func search(for text: String) {
+        let userDefaultSearchHistoryRepository = UserDefaultSearchHistoryRepository()
+        userDefaultSearchHistoryRepository.saveSearchKeyword(searchKeyword: text)
         getData(for: text)
     }
     
@@ -59,6 +64,14 @@ extension PhotosListPresenter: PhotosListPresenterInput {
             getData(for: self.query)
         }
         
+    }
+    
+    func getSearchHistory() {
+        let userDefaultSearchHistoryRepository = UserDefaultSearchHistoryRepository()
+        let searchTerms = userDefaultSearchHistoryRepository.getSearchHistory
+        let itemsForCollection = createItemsForCollection(searchTerms: searchTerms())
+        output?.updateData(itemsForCollection: itemsForCollection, rows: nil, reloadCollection: true)
+
     }
 }
 
@@ -148,5 +161,15 @@ extension PhotosListPresenter {
         }
         
         return itemsForCollection + [ItemCollectionViewCellType?](repeating: nil, count: 10)
+    }
+    
+    private func createItemsForCollection(searchTerms: [String]) -> [ItemCollectionViewCellType?] {
+        var itemsForCollection: [ItemCollectionViewCellType] = []
+        
+        for searchTerm in searchTerms {
+            itemsForCollection.append(.search(term: searchTerm))
+        }
+        
+        return itemsForCollection
     }
 }

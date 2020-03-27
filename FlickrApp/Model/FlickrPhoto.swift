@@ -4,7 +4,7 @@
 
 import Foundation
 
-struct PhotosResult: Codable {
+struct FlickrPhoto: Codable {
 
 	let photos: Photos?
 	let stat: String?

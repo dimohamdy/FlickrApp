@@ -1,5 +1,5 @@
 //
-//  DataSource.swift
+//  PhotosRepository.swift
 //  FlickrApp
 //
 //  Created by BinaryBoy on 3/25/20.
@@ -10,5 +10,5 @@ import Foundation
 
 protocol PhotosRepository {
 
-    func photos(for query: String, page: Int, completion: @escaping (Result< PhotosResult, FlickrAppError>) -> Void)
+    func photos(for query: String, page: Int, completion: @escaping (Result< FlickrPhoto, FlickrAppError>) -> Void)
 }

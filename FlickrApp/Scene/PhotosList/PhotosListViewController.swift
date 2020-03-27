@@ -24,6 +24,7 @@ class PhotosListViewController: UIViewController {
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(PhotoCollectionCell.self, forCellWithReuseIdentifier: PhotoCollectionCell.identifier)
         collectionView.register(EmptyCollectionCell.self, forCellWithReuseIdentifier: EmptyCollectionCell.identifier)
+        collectionView.register(SearchHistoryCollectionCell.self, forCellWithReuseIdentifier: SearchHistoryCollectionCell.identifier)
         collectionView.backgroundColor = .white
         return collectionView
     }()
@@ -95,6 +96,8 @@ extension PhotosListViewController: UISearchBarDelegate {
         searchBar.text = nil
         searchBar.resignFirstResponder()
         searchBar.setShowsCancelButton(false, animated: true)
+        clearCollection()
+        defaultPlaceHolder()
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -103,13 +106,13 @@ extension PhotosListViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
-        if let text = searchBar.text,!text.isEmpty{
+        if let text = searchBar.text, !text.isEmpty, text.count >= 3 {
             presenter.search(for: text)
         }
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty {
+        if searchText.isEmpty  {
             clearCollection()
             defaultPlaceHolder()
         }
@@ -123,13 +126,16 @@ extension PhotosListViewController: UISearchBarDelegate {
     }
     
     func defaultPlaceHolder() {
+        presenter.getSearchHistory()
     }
 }
 
 // MARK: - PhotosListPresenterOutput
 extension PhotosListViewController: PhotosListPresenterOutput {
     func updateData(itemsForCollection: [ItemCollectionViewCellType?], rows: [IndexPath]?, reloadCollection: Bool) {
-        
+        guard !itemsForCollection.isEmpty else {
+            return
+        }
         if collectionDataSource == nil {
             collectionDataSource = PhotosCollectionViewDataSource(presenterInput: presenter, itemsForCollection: itemsForCollection)
         } else {
