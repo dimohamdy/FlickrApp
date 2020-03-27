@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PhotosCollectionViewDataSource: NSObject,  UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout  {
+class PhotosCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     var itemsForCollection: [ItemCollectionViewCellType?] = []
     
     weak var presenterInput: PhotosListPresenterInput!
@@ -26,7 +26,6 @@ class PhotosCollectionViewDataSource: NSObject,  UICollectionViewDataSource, UIC
     }
     
     // MARK: - Collection view data source
-    
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
@@ -67,7 +66,7 @@ class PhotosCollectionViewDataSource: NSObject,  UICollectionViewDataSource, UIC
                 }
                 return UICollectionViewCell()
             }
-        }else {
+        } else {
             if let cell: EmptyCollectionCell = collectionView.dequeueReusableCell(for: indexPath) {
                 cell.configCell(message: "No ")
                 return cell
@@ -93,17 +92,14 @@ class PhotosCollectionViewDataSource: NSObject,  UICollectionViewDataSource, UIC
     
 }
 
-
-
 extension PhotosCollectionViewDataSource: UICollectionViewDataSourcePrefetching {
     
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
         
-        for indexPath in indexPaths{
+        for indexPath in indexPaths {
             requestData(forIndex: indexPath)
         }
     }
-    
     
     func requestData(forIndex: IndexPath) {
         

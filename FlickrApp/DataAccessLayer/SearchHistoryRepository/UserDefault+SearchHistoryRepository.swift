@@ -9,8 +9,8 @@
 import Foundation
 
 final class UserDefaultSearchHistoryRepository: SearchHistoryRepository {
-
-     func getSearchHistory() -> [String] {
+    
+    func getSearchHistory() -> [String] {
         if let history = UserDefaults.standard.array(forKey: UserDefaultsKey.searchHistoryOfPhotos.rawValue) as? [String] {
             return history
         }
@@ -19,7 +19,7 @@ final class UserDefaultSearchHistoryRepository: SearchHistoryRepository {
     }
     
     @discardableResult
-     func saveSearchKeyword(searchKeyword: String) -> [String] {
+    func saveSearchKeyword(searchKeyword: String) -> [String] {
         let history = getSearchHistory()
         guard !searchKeyword.isEmpty else {
             return history
@@ -32,6 +32,11 @@ final class UserDefaultSearchHistoryRepository: SearchHistoryRepository {
         result.append(searchKeyword)
         UserDefaults.standard.set(result, forKey: UserDefaultsKey.searchHistoryOfPhotos.rawValue)
         return history
+    }
+    
+    func clearSearchHistory() -> [String] {
+        UserDefaults.standard.removeObject(forKey: UserDefaultsKey.searchHistoryOfPhotos.rawValue)
+        return []
     }
 }
 enum UserDefaultsKey: String {

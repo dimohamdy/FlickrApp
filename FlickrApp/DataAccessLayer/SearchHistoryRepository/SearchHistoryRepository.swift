@@ -10,5 +10,6 @@ import Foundation
 
 protocol SearchHistoryRepository {
     func getSearchHistory() -> [String]
-    func saveSearchKeyword(searchKeyword: String) -> [String] 
+    func saveSearchKeyword(searchKeyword: String) -> [String]
+    func clearSearchHistory() -> [String]
 }

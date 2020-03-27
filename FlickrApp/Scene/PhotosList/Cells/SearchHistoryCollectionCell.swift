@@ -10,7 +10,6 @@ import UIKit
 
 class SearchHistoryCollectionCell: UICollectionViewCell, CellReusable {
     
-    
     private var searchTermLabel: UILabel = {
         let label = UILabel()
         label.textAlignment = .left
@@ -56,7 +55,7 @@ class SearchHistoryCollectionCell: UICollectionViewCell, CellReusable {
             searchTermLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
             searchTermLabel.topAnchor.constraint(equalTo: topAnchor),
             searchTermLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            searchTermLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            searchTermLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
     }

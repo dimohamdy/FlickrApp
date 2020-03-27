@@ -37,7 +37,7 @@ class EmptyCollectionCell: UICollectionViewCell, CellReusable {
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             titleLabel.trailingAnchor.constraint(equalTo: leadingAnchor, constant: -16),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
             
         ])
         

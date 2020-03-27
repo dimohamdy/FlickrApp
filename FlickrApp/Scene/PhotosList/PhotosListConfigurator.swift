@@ -14,7 +14,7 @@ protocol PhotosListConfigurable {
 
 class PhotosListConfigurator: PhotosListConfigurable {
 
-    //MARK: PhotosListConfigurable
+    // MARK: PhotosListConfigurable
     func configure(viewController: PhotosListViewController) {
     
         let router = PhotosListRouter(viewController: viewController)

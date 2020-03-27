@@ -10,8 +10,7 @@ import UIKit
 
 class PhotoCollectionCell: UICollectionViewCell, CellReusable {
 
-    
-    private lazy var photoImageView: UIImageView = {
+     let photoImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image  = UIImage(named: "user_image_placeholder")
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -78,13 +77,13 @@ class PhotoCollectionCell: UICollectionViewCell, CellReusable {
             photoImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             photoImageView.topAnchor.constraint(equalTo: topAnchor),
             photoImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            photoImageView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            photoImageView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         
     }
     func configCell(photo: Photo) {
         if let imagePath = photo.imagePath {
-            photoImageView.download(from:  imagePath, contentMode: .scaleAspectFill)
+            photoImageView.download(from: imagePath, contentMode: .scaleAspectFill)
         }
     }
     

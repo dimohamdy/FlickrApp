@@ -22,7 +22,7 @@ protocol PhotosListPresenterOutput: BasePresenterOutput {
 
 class PhotosListPresenter {
     
-    //MARK: Injections
+    // MARK: Injections
     private weak var output: PhotosListPresenterOutput?
     var router: PhotosListRoutable
     lazy var photosRepository: WebPhotosRepository = WebPhotosRepository()
@@ -33,8 +33,7 @@ class PhotosListPresenter {
     // internal
     var itemsForCollection: [ItemCollectionViewCellType?] = [ItemCollectionViewCellType?]()
     
-    
-    //MARK: LifeCycle 
+    // MARK: LifeCycle 
     init(output: PhotosListPresenterOutput,
          router: PhotosListRoutable) {
         
@@ -53,12 +52,11 @@ extension PhotosListPresenter: PhotosListPresenterInput {
         getData(for: text)
     }
     
-    
     func viewDidLoad() {
         
     }
     
-    func loadMoreData(_ page: Int){
+    func loadMoreData(_ page: Int) {
         if self.page <= page && canLoadMore == true {
             print("🧨🧨🧨🧨🧨🧨🧨🧨🧨 \(page)")
             getData(for: self.query)
@@ -75,7 +73,6 @@ extension PhotosListPresenter: PhotosListPresenterInput {
     }
 }
 
-
 // MARK: Setup
 
 extension PhotosListPresenter {
@@ -83,7 +80,7 @@ extension PhotosListPresenter {
     private func getData(for query: String) {
         self.query = query
         
-        guard (photosRepository is WebPhotosRepository && Reachability.isConnectedToNetwork() == true) else {
+        guard Reachability.isConnectedToNetwork() else {
             self.itemsForCollection = [.error(message: FlickrAppError.noInternetConnection.localizedDescription)]
             self.output?.updateData(itemsForCollection: itemsForCollection, rows: nil, reloadCollection: true)
             return
@@ -128,7 +125,7 @@ extension PhotosListPresenter {
         }
         
         let newItems: [ItemCollectionViewCellType?] = createItemsForCollection(photosArray: photosArray)
-        if (itemsForCollection.count / 10) > 1{
+        if (itemsForCollection.count / 10) > 1 {
             itemsForCollection.removeLast(10)
         }
         let indexes = indexesForNewPhotos(from: itemsForCollection.count, to: itemsForCollection.count + newItems.count)

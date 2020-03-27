@@ -29,9 +29,7 @@ protocol BasePresenterOutput: BaseDisplayLogic {
     func hideLoading()
 }
 
-
 extension BaseDisplayLogic where Self: UIViewController {
-
 
     func showError(title: String, subtitle: String?) {
 

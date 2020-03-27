@@ -41,10 +41,8 @@ class PhotosListViewController: UIViewController {
         return searchBar
     }()
     
-    
     // MARK: Injections
     var presenter: PhotosListPresenterInput!
-    
     
     // MARK: View lifeCycle
     
@@ -60,7 +58,6 @@ class PhotosListViewController: UIViewController {
         searchBar.delegate = self
         
     }
-    
     
     // MARK: - Setup UI
     
@@ -84,7 +81,6 @@ class PhotosListViewController: UIViewController {
         ])
         
     }
-    
  
 }
 // MARK: UISearch Delegates
@@ -112,7 +108,7 @@ extension PhotosListViewController: UISearchBarDelegate {
     }
     
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchText.isEmpty  {
+        if searchText.isEmpty {
             clearCollection()
             defaultPlaceHolder()
         }
@@ -163,7 +159,4 @@ extension PhotosListViewController: PhotosListPresenterOutput {
         
     }
     
-    
 }
-
-
