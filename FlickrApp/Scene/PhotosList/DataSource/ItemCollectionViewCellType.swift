@@ -10,6 +10,8 @@ import Foundation
 
 enum ItemCollectionViewCellType {
     case cellItem(photo: Photo)
+    case search(term: String)
     case error(message: String)
     case empty
+    
 }

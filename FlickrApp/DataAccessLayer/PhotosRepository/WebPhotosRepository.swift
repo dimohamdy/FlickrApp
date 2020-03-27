@@ -1,8 +1,8 @@
 //
-//  Web PhotosRepository.swift
+//  WebPhotosRepository.swift
 //  FlickrApp
 //
-//  Created by BinaryBoy on 4/18/19.
+//  Created by BinaryBoy on 3/25/20.
 //  Copyright © 2019 BinaryBoy. All rights reserved.
 //
 
@@ -19,7 +19,6 @@ final class WebPhotosRepository: PhotosRepository {
         let path = APILinksFactory.API.search(text: query,perPage: 10,page: page).path
 
         guard let url = URL(string:path) else { return }
-        print(path)
         client.loadData(from: url) { (result: Result<PhotosResult, FlickrAppError>) in
             switch result {
             case .success(let data):

@@ -10,9 +10,9 @@ import UIKit
 
 class PhotosListViewController: UIViewController {
     var collectionDataSource: PhotosCollectionViewDataSource!
-
+    
     // MARK: Outlets
-    private var collectionView: UICollectionView = {
+    let photosCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 8
@@ -34,16 +34,8 @@ class PhotosListViewController: UIViewController {
         searchBar.barStyle = .black
         searchBar.barTintColor = .black
         searchBar.backgroundColor = .clear
-        //        searchBar.textField?.textColor = theme.textColor
-        //        searchBar.textField?.font = theme.taglineLabelFont(size: 17)
-        //        searchBar.textField?.backgroundColor = UIColor(red: 142 / 255, green: 142 / 255, blue: 147 / 255, alpha: 0.12)
         searchBar.isTranslucent = true
         searchBar.placeholder = "search for photos ..."
-        //        let attributes: [NSAttributedString.Key: Any] = [
-        //            NSAttributedString.Key.foregroundColor: UIColor(red: 1, green: 0.985, blue: 0.118, alpha: 1),
-        //            NSAttributedString.Key.font: UIFont.basierFont(ofSize: 13, weight: .regular)
-        //        ]
-        //        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UISearchBar.self]).setTitleTextAttributes(attributes, for: .normal)
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         return searchBar
     }()
@@ -57,7 +49,7 @@ class PhotosListViewController: UIViewController {
     
     override func loadView() {
         super.loadView()
-        view.backgroundColor = .green
+        view.backgroundColor = .white
         setupUI()
     }
     
@@ -65,14 +57,14 @@ class PhotosListViewController: UIViewController {
         super.viewDidLoad()
         presenter.viewDidLoad()
         searchBar.delegate = self
-
+        
     }
     
     
     // MARK: - Setup UI
     
     func setupUI() {
-        [searchBar, collectionView].forEach {
+        [searchBar, photosCollectionView].forEach {
             view.addSubview($0)
         }
         
@@ -84,13 +76,15 @@ class PhotosListViewController: UIViewController {
         ])
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            photosCollectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            photosCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            photosCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            photosCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         
     }
+    
+ 
 }
 // MARK: UISearch Delegates
 
@@ -122,10 +116,10 @@ extension PhotosListViewController: UISearchBarDelegate {
     }
     
     func clearCollection() {
-        self.collectionView.isHidden = true
-        self.collectionView.dataSource = nil
-        self.collectionView.dataSource = nil
-        self.collectionView.reloadData()
+        photosCollectionView.isHidden = true
+        photosCollectionView.dataSource = nil
+        photosCollectionView.dataSource = nil
+        photosCollectionView.reloadData()
     }
     
     func defaultPlaceHolder() {
@@ -134,26 +128,32 @@ extension PhotosListViewController: UISearchBarDelegate {
 
 // MARK: - PhotosListPresenterOutput
 extension PhotosListViewController: PhotosListPresenterOutput {
-    func updateData(itemsForCollection: [ItemCollectionViewCellType], rows: [IndexPath]?, reloadTable: Bool) {
+    func updateData(itemsForCollection: [ItemCollectionViewCellType?], rows: [IndexPath]?, reloadCollection: Bool) {
+        
+        if collectionDataSource == nil {
+            collectionDataSource = PhotosCollectionViewDataSource(presenterInput: presenter, itemsForCollection: itemsForCollection)
+        } else {
+            collectionDataSource.itemsForCollection = itemsForCollection
+        }
+        
+        DispatchQueue.main.async {
+            self.photosCollectionView.isHidden = false
+            self.photosCollectionView.dataSource = self.collectionDataSource
+            self.photosCollectionView.delegate = self.collectionDataSource
+            self.photosCollectionView.prefetchDataSource = self.collectionDataSource
             
-            if collectionDataSource == nil {
-                collectionDataSource = PhotosCollectionViewDataSource(presenterInput: presenter, itemsForCollection: itemsForCollection)
-            } else {
-                collectionDataSource.itemsForCollection = itemsForCollection
+            guard let rows = rows, reloadCollection == false else {
+                self.photosCollectionView.reloadData()
+                return
             }
-            
-            DispatchQueue.main.async {
-                self.collectionView.dataSource = self.collectionDataSource
-                self.collectionView.delegate = self.collectionDataSource
-                
-                guard let rows = rows, reloadTable == false else {
-                    self.collectionView.reloadData()
-                    return
-                }
-                
-                self.collectionView.insertItems(at: rows)
-                
-            }
+//            self.collectionView.performBatchUpdates({
+//                print(rows)
+//                self.collectionView.insertItems(at: Array(rows.dropLast(10)))
+//                self.collectionView.reloadItems(at: rows)
+//            }, completion: nil)
+            self.photosCollectionView.reloadData()
+
+        }
         
     }
     

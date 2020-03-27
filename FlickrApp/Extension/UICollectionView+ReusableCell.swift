@@ -2,7 +2,7 @@
 //  UICollectionView+ReusableCell.swift
 //  FlickrApp
 //
-//  Created by BinaryBoy on 4/22/19.
+//  Created by BinaryBoy on 4/22/20.
 //  Copyright © 2019 BinaryBoy. All rights reserved.
 //
 

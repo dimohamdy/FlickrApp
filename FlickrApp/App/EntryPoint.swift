@@ -11,10 +11,8 @@ import UIKit
 struct EntryPoint {
     
     func initSplashScreen(window: UIWindow) {
-        
         window.rootViewController = UINavigationController(rootViewController: PhotosListBuilder.viewController())
         window.makeKeyAndVisible()
-        //EightyTechReachability.shared.startNetworkReachabilityObserver()        
     }
     
 }

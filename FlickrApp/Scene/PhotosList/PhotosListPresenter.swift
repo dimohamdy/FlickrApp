@@ -11,11 +11,11 @@ import Foundation
 protocol PhotosListPresenterInput: BasePresenterInput {
     var router: PhotosListRoutable { get }
     func search(for text: String)
-    func loadMoreData(_ index: IndexPath)
+    func loadMoreData(_ page: Int)
 }
 
 protocol PhotosListPresenterOutput: BasePresenterOutput {
-    func updateData(itemsForCollection: [ItemCollectionViewCellType], rows: [IndexPath]?, reloadTable: Bool)
+    func updateData(itemsForCollection: [ItemCollectionViewCellType?], rows: [IndexPath]?, reloadCollection: Bool)
 }
 
 class PhotosListPresenter {
@@ -29,7 +29,7 @@ class PhotosListPresenter {
     fileprivate var page: Int = 1
     fileprivate var canLoadMore = true
     // internal
-    var itemsForCollection: [ItemCollectionViewCellType] = [ItemCollectionViewCellType]()
+    var itemsForCollection: [ItemCollectionViewCellType?] = [ItemCollectionViewCellType?]()
     
     
     //MARK: LifeCycle 
@@ -53,13 +53,13 @@ extension PhotosListPresenter: PhotosListPresenterInput {
         
     }
     
-    func loadMoreData(_ index: IndexPath) {
-        if canLoadMore == true {
+    func loadMoreData(_ page: Int){
+        if self.page <= page && canLoadMore == true {
+            print("🧨🧨🧨🧨🧨🧨🧨🧨🧨 \(page)")
             getData(for: self.query)
         }
         
     }
-    
 }
 
 
@@ -72,7 +72,7 @@ extension PhotosListPresenter {
         
         guard (photosRepository is WebPhotosRepository && Reachability.isConnectedToNetwork() == true) else {
             self.itemsForCollection = [.error(message: FlickrAppError.noInternetConnection.localizedDescription)]
-            self.output?.updateData(itemsForCollection: itemsForCollection, rows: nil, reloadTable: true)
+            self.output?.updateData(itemsForCollection: itemsForCollection, rows: nil, reloadCollection: true)
             return
         }
         output?.showLoading()
@@ -98,7 +98,7 @@ extension PhotosListPresenter {
                     
                 case .failure(let error):
                     self.itemsForCollection = [.error(message: error.localizedDescription)]
-                    self.output?.updateData(itemsForCollection: self.itemsForCollection, rows: nil, reloadTable: true)
+                    self.output?.updateData(itemsForCollection: self.itemsForCollection, rows: nil, reloadCollection: true)
                 }
             }
         }
@@ -109,26 +109,25 @@ extension PhotosListPresenter {
         let nextPage = Int(photos.page) + 1
         self.page = nextPage
         
-        //reload table prevent me to reload all table when each page I use insertRows Insted
-        var reloadTable: Bool = false
+        var reloadCollection: Bool = false
         if itemsForCollection.isEmpty {
-            reloadTable = true
+            reloadCollection = true
         }
         
-        
-        let newItems: [ItemCollectionViewCellType] = createItemsForTable(photosArray: photosArray)
+        let newItems: [ItemCollectionViewCellType?] = createItemsForCollection(photosArray: photosArray)
+        if (itemsForCollection.count / 10) > 1{
+            itemsForCollection.removeLast(10)
+        }
         let indexes = indexesForNewPhotos(from: itemsForCollection.count, to: itemsForCollection.count + newItems.count)
-        
         itemsForCollection.append(contentsOf: newItems)
-        
-        output?.updateData(itemsForCollection: itemsForCollection, rows: indexes, reloadTable: reloadTable)
+        output?.updateData(itemsForCollection: itemsForCollection, rows: indexes, reloadCollection: reloadCollection)
     }
     
     private func handleNoPhotos() {
         
         if  itemsForCollection.isEmpty {
             itemsForCollection.append(.empty)
-            output?.updateData(itemsForCollection: itemsForCollection, rows: nil, reloadTable: true)
+            output?.updateData(itemsForCollection: itemsForCollection, rows: nil, reloadCollection: true)
         }
     }
     
@@ -141,13 +140,13 @@ extension PhotosListPresenter {
         return indexesArray
     }
     
-    private func createItemsForTable(photosArray: [Photo]) -> [ItemCollectionViewCellType] {
+    private func createItemsForCollection(photosArray: [Photo]) -> [ItemCollectionViewCellType?] {
         var itemsForCollection: [ItemCollectionViewCellType] = []
         
         for photo in photosArray {
             itemsForCollection.append(.cellItem(photo: photo))
         }
         
-        return itemsForCollection
+        return itemsForCollection + [ItemCollectionViewCellType?](repeating: nil, count: 10)
     }
 }
