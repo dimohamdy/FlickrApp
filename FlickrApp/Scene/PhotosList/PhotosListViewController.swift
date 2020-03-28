@@ -54,9 +54,8 @@ class PhotosListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.viewDidLoad()
         searchBar.delegate = self
-        
+        defaultPlaceHolder()
     }
     
     // MARK: - Setup UI
@@ -159,4 +158,7 @@ extension PhotosListViewController: PhotosListPresenterOutput {
         
     }
     
+    func beginSearching(for term: String) {
+        searchBar.text = term
+    }
 }

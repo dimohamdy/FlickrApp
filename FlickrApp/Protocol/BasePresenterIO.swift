@@ -12,7 +12,9 @@ import SwiftMessages
 protocol BasePresenterInput: class {
     func viewDidLoad()
 }
-
+extension BasePresenterInput {
+    func viewDidLoad() {}
+}
 protocol BaseDisplayLogic: class {
     func handle(error: FlickrAppError)
     func showError(error: Error)
@@ -113,7 +115,7 @@ extension UIViewController {
             
             loadingIndicatorView.startAnimating()
             self.addSubview(loadingIndicatorView)
-            loadingIndicatorView.layer.zPosition = .greatestFiniteMagnitude
+            loadingIndicatorView.layer.zPosition = CGFloat(Float.greatestFiniteMagnitude)
             loadingIndicatorView.layer.cornerRadius = 5
             
             NSLayoutConstraint.activate([

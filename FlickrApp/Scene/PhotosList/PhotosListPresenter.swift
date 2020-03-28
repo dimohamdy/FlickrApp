@@ -18,6 +18,7 @@ protocol PhotosListPresenterInput: BasePresenterInput {
 
 protocol PhotosListPresenterOutput: BasePresenterOutput {
     func updateData(itemsForCollection: [ItemCollectionViewCellType?], rows: [IndexPath]?, reloadCollection: Bool)
+    func beginSearching(for term: String)
 }
 
 class PhotosListPresenter {
@@ -50,18 +51,14 @@ extension PhotosListPresenter: PhotosListPresenterInput {
         let userDefaultSearchHistoryRepository = UserDefaultSearchHistoryRepository()
         userDefaultSearchHistoryRepository.saveSearchKeyword(searchKeyword: text)
         getData(for: text)
-    }
-    
-    func viewDidLoad() {
-        
+        output?.beginSearching(for: text)
     }
     
     func loadMoreData(_ page: Int) {
         if self.page <= page && canLoadMore == true {
-            print("🧨🧨🧨🧨🧨🧨🧨🧨🧨 \(page)")
+            print("🚀 Page number \(page)")
             getData(for: self.query)
         }
-        
     }
     
     func getSearchHistory() {

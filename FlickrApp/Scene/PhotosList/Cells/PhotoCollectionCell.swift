@@ -12,7 +12,7 @@ class PhotoCollectionCell: UICollectionViewCell, CellReusable {
 
      let photoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image  = UIImage(named: "user_image_placeholder")
+        imageView.image  = UIImage(named: "place_holder")
         imageView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor)
@@ -81,9 +81,11 @@ class PhotoCollectionCell: UICollectionViewCell, CellReusable {
         ])
         
     }
-    func configCell(photo: Photo) {
-        if let imagePath = photo.imagePath {
+    func configCell(photo: Photo?) {
+        if let imagePath = photo?.imagePath {
             photoImageView.download(from: imagePath, contentMode: .scaleAspectFill)
+        } else {
+            photoImageView.image =  UIImage(named: "place_holder")
         }
     }
     

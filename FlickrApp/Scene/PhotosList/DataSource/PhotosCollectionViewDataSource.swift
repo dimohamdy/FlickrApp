@@ -67,8 +67,8 @@ class PhotosCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICo
                 return UICollectionViewCell()
             }
         } else {
-            if let cell: EmptyCollectionCell = collectionView.dequeueReusableCell(for: indexPath) {
-                cell.configCell(message: "No ")
+            if let cell: PhotoCollectionCell = collectionView.dequeueReusableCell(for: indexPath) {
+                cell.configCell(photo: nil)
                 return cell
             }
             return UICollectionViewCell()
@@ -76,18 +76,35 @@ class PhotosCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICo
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
         if let item = itemsForCollection[indexPath.row] {
             switch item {
             case .cellItem:
-                let widthAndHeight = collectionView.bounds.width / 2.1
-                return CGSize(width: widthAndHeight, height: widthAndHeight)
+                return getPhotoCellSize(collectionView: collectionView)
             case .error, .empty:
                 return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
             case .search:
                 return CGSize(width: collectionView.bounds.width, height: Constant.heightOfSearchTermCell)
             }
+        } else {
+            return getPhotoCellSize(collectionView: collectionView)
         }
-        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
+    }
+    
+    private func getPhotoCellSize(collectionView: UICollectionView) -> CGSize {
+        let widthAndHeight = collectionView.bounds.width / 2.1
+        return CGSize(width: widthAndHeight, height: widthAndHeight)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let item = itemsForCollection[indexPath.row] {
+            switch item {
+            case .search(let term):
+                presenterInput.search(for: term)
+            default:
+                break
+            }
+        }
     }
     
 }

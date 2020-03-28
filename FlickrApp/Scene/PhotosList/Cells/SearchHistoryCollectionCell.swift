@@ -52,9 +52,9 @@ class SearchHistoryCollectionCell: UICollectionViewCell, CellReusable {
         addSubview(searchTermLabel)
         
         NSLayoutConstraint.activate([
-            searchTermLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            searchTermLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             searchTermLabel.topAnchor.constraint(equalTo: topAnchor),
-            searchTermLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            searchTermLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             searchTermLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
         

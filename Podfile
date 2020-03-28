@@ -6,8 +6,8 @@ target 'FlickrApp' do
   use_frameworks!
 
   # Pods for FlickrApp
-   pod 'Kingfisher','5.13.2'
-   pod 'SwiftMessages',
+   pod 'Kingfisher','~> 5.13.0'
+   pod 'SwiftMessages', '~> 7.0.0'
 
   target 'FlickrAppTests' do
     inherit! :search_paths
