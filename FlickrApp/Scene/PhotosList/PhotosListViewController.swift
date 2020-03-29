@@ -149,8 +149,8 @@ extension PhotosListViewController: PhotosListPresenterOutput {
                 self.photosCollectionView.reloadData()
                 return
             }
-            //avoid reload Collection Tabke
-            print(rows)
+            //avoid reload CollectionView only reload changed cells
+
             let  insertedIndexes = Array(rows.dropFirst(10))
             let  reloadIndexes = Array(rows.dropLast(10))
 
