@@ -82,6 +82,7 @@ class PhotosListViewController: UIViewController {
     }
  
 }
+
 // MARK: UISearch Delegates
 
 extension PhotosListViewController: UISearchBarDelegate {
@@ -131,6 +132,7 @@ extension PhotosListViewController: PhotosListPresenterOutput {
         guard !itemsForCollection.isEmpty else {
             return
         }
+        
         if collectionDataSource == nil {
             collectionDataSource = PhotosCollectionViewDataSource(presenterInput: presenter, itemsForCollection: itemsForCollection)
         } else {
@@ -147,12 +149,15 @@ extension PhotosListViewController: PhotosListPresenterOutput {
                 self.photosCollectionView.reloadData()
                 return
             }
-//            self.collectionView.performBatchUpdates({
-//                print(rows)
-//                self.collectionView.insertItems(at: Array(rows.dropLast(10)))
-//                self.collectionView.reloadItems(at: rows)
-//            }, completion: nil)
-            self.photosCollectionView.reloadData()
+            //avoid reload Collection Tabke
+            print(rows)
+            let  insertedIndexes = Array(rows.dropFirst(10))
+            let  reloadIndexes = Array(rows.dropLast(10))
+
+            self.photosCollectionView.performBatchUpdates({
+                self.photosCollectionView.reloadItems(at: reloadIndexes)
+                self.photosCollectionView.insertItems(at: insertedIndexes)
+            }, completion: nil)
 
         }
         
