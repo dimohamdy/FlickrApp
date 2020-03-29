@@ -34,7 +34,6 @@ class PhotosListViewController: UIViewController {
         searchBar.backgroundImage = UIImage()
         searchBar.barStyle = .black
         searchBar.barTintColor = .black
-        searchBar.backgroundColor = .clear
         searchBar.isTranslucent = true
         searchBar.placeholder = "search for photos ..."
         searchBar.translatesAutoresizingMaskIntoConstraints = false
