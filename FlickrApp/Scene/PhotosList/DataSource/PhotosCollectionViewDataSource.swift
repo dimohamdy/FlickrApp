@@ -13,9 +13,8 @@ class PhotosCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICo
     
     weak var presenterInput: PhotosListPresenterInput!
     
-    struct Constant {
+    private struct Constant {
         static let heightOfPhotoCell: CGFloat = 120
-        static let heightOfSkeltonCell: CGFloat = 120
         static let heightOfSearchTermCell: CGFloat = 50
         static let heightOfHistoryHeader: CGFloat = 120
     }
@@ -125,10 +124,6 @@ extension PhotosCollectionViewDataSource: UICollectionViewDataSourcePrefetching 
         }
         let pageToGet = Int(forIndex.row / 10) + 1
         presenterInput.loadMoreData(pageToGet)
-        
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cancelPrefetchingForItemsAt indexPaths: [IndexPath]) {
         
     }
     
