@@ -12,7 +12,7 @@ class PhotosListViewController: UIViewController {
     var collectionDataSource: PhotosCollectionViewDataSource!
     
     // MARK: Outlets
-    let photosCollectionView: UICollectionView = {
+    private let photosCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         layout.minimumInteritemSpacing = 8
@@ -29,7 +29,7 @@ class PhotosListViewController: UIViewController {
         return collectionView
     }()
     
-    let searchBar: UISearchBar = {
+    private let searchBar: UISearchBar = {
         let searchBar = UISearchBar(frame: .zero)
         searchBar.backgroundImage = UIImage()
         searchBar.barStyle = .black
@@ -58,8 +58,7 @@ class PhotosListViewController: UIViewController {
     }
     
     // MARK: - Setup UI
-    
-    func setupUI() {
+    private func setupUI() {
         [searchBar, photosCollectionView].forEach {
             view.addSubview($0)
         }
