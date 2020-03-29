@@ -1,6 +1,14 @@
 # FlickrApp
-# App Structure
 
+# Install
+* Add API_Key in APILinksFactory
+* Run in terminal
+```
+pod install
+```
+
+
+# App Structure
 
 * App structure I use **MVP** with Input-Output approach **Delegate** to notify about updates.
 
@@ -14,13 +22,16 @@
 
 * Create Extension for UIImageView to download the image from the link.
 
-* I use [SwiftLint](https://github.com/realm/SwiftLint) to enhance Swift style.
+* I used [SwiftLint](https://github.com/realm/SwiftLint) to enhance Swift style.
 
-* I use [JSONExport](https://github.com/Ahmed-Ali/JSONExport) to generate model from JSON.
+* I used [JSONExport](https://github.com/Ahmed-Ali/JSONExport) to generate model from JSON.
 
-* I use create UI with code.
+* I used create UI with code.
 
 * I use  this answer to [check internet connection](https://stackoverflow.com/questions/39558868/check-internet-connection-ios-10/52998897#52998897)
+
+* I used Cocopods.
+
 
 
 # UnitTest
