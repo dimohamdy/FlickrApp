@@ -14,7 +14,7 @@ struct Photo: Codable {
     var imagePath: String? {
         return "http://farm\(farm).static.flickr.com/\(server)/\(id)_\(secret).jpg"
     }
-	enum CodingKeys: String, CodingKey {
+	private enum CodingKeys: String, CodingKey {
 		case farm
 		case id
 		case isFamily = "isfamily"

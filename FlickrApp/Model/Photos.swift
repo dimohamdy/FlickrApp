@@ -16,7 +16,7 @@ struct Photos: Codable {
     let total: String
     let photos: [Photo]
     
-    enum CodingKeys: String, CodingKey {
+    private enum CodingKeys: String, CodingKey {
         
         case page
         case pages
