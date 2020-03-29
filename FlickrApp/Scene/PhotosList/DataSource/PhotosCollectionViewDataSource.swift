@@ -13,7 +13,7 @@ class PhotosCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICo
     
     weak var presenterInput: PhotosListPresenterInput!
     
-    private struct Constant {
+    private struct CellHeightConstant {
         static let heightOfPhotoCell: CGFloat = 120
         static let heightOfSearchTermCell: CGFloat = 50
         static let heightOfHistoryHeader: CGFloat = 120
@@ -83,7 +83,7 @@ class PhotosCollectionViewDataSource: NSObject, UICollectionViewDataSource, UICo
             case .error, .empty:
                 return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
             case .search:
-                return CGSize(width: collectionView.bounds.width, height: Constant.heightOfSearchTermCell)
+                return CGSize(width: collectionView.bounds.width, height: CellHeightConstant.heightOfSearchTermCell)
             }
         } else {
             return getPhotoCellSize(collectionView: collectionView)
@@ -122,7 +122,7 @@ extension PhotosCollectionViewDataSource: UICollectionViewDataSourcePrefetching 
         if itemsForCollection[forIndex.row] != nil {
             return
         }
-        let pageToGet = Int(forIndex.row / 10) + 1
+        let pageToGet = Int(forIndex.row / Constant.pageSize) + 1
         presenterInput.loadMoreData(pageToGet)
         
     }

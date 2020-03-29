@@ -16,7 +16,7 @@ final class WebPhotosRepository: PhotosRepository {
     }
 
     func photos(for query: String, page: Int, completion: @escaping (Result< FlickrPhoto, FlickrAppError>) -> Void) {
-        let path = APILinksFactory.API.search(text: query, perPage: 10, page: page).path
+        let path = APILinksFactory.API.search(text: query, perPage: Constant.pageSize, page: page).path
 
         guard let url = URL(string: path) else { return }
         client.loadData(from: url) { (result: Result<FlickrPhoto, FlickrAppError>) in

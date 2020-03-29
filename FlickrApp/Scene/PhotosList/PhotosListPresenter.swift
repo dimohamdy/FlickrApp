@@ -122,8 +122,8 @@ extension PhotosListPresenter {
         }
         
         let newItems: [ItemCollectionViewCellType?] = createItemsForCollection(photosArray: photosArray)
-        if (itemsForCollection.count / 10) > 1 {
-            itemsForCollection.removeLast(10)
+        if (itemsForCollection.count / Constant.pageSize) > 1 {
+            itemsForCollection.removeLast(Constant.pageSize)
         }
         let indexes = indexesForNewPhotos(from: itemsForCollection.count, to: itemsForCollection.count + newItems.count)
         itemsForCollection.append(contentsOf: newItems)
@@ -154,7 +154,7 @@ extension PhotosListPresenter {
             itemsForCollection.append(.cellItem(photo: photo))
         }
         
-        return itemsForCollection + [ItemCollectionViewCellType?](repeating: nil, count: 10)
+        return itemsForCollection + [ItemCollectionViewCellType?](repeating: nil, count: Constant.pageSize)
     }
     
     private func createItemsForCollection(searchTerms: [String]) -> [ItemCollectionViewCellType?] {

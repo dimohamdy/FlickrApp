@@ -149,8 +149,8 @@ extension PhotosListViewController: PhotosListPresenterOutput {
             }
             //avoid reload CollectionView only reload changed cells
 
-            let  insertedIndexes = Array(rows.dropFirst(10))
-            let  reloadIndexes = Array(rows.dropLast(10))
+            let  insertedIndexes = Array(rows.dropFirst(Constant.pageSize))
+            let  reloadIndexes = Array(rows.dropLast(Constant.pageSize))
 
             self.photosCollectionView.performBatchUpdates({
                 self.photosCollectionView.reloadItems(at: reloadIndexes)
