@@ -23,16 +23,24 @@ protocol BaseDisplayLogic: class {
 }
 
 protocol Loading {
-
-}
-
-protocol BasePresenterOutput: BaseDisplayLogic {
     func showLoading()
     func hideLoading()
 }
 
+protocol BasePresenterOutput: BaseDisplayLogic, Loading {
+
+}
+
 extension BaseDisplayLogic where Self: UIViewController {
 
+    func handle(error: FlickrAppError) {
+        showError(error: error)
+    }
+    
+    func showError(error: Error) {
+        showError(title: "error", subtitle: error.localizedDescription)
+    }
+    
     func showError(title: String, subtitle: String?) {
 
         let view = MessageView.viewFromNib(layout: .cardView)
@@ -62,23 +70,13 @@ extension BaseDisplayLogic where Self: UIViewController {
 }
 
 extension UIViewController: BasePresenterOutput {
-    func handle(error: FlickrAppError) {
-        
-    }
-    
+  
     func showLoading() {
         view.startActivityIndicator(tag: Tags.Loading.loadingIndicator)
-
     }
 
     func hideLoading() {
         view.stopActivityIndicator(tag: Tags.Loading.loadingIndicator)
-    }
-}
-extension UIViewController {
-
-    func showError(error: Error) {
-        showError(title: "error", subtitle: error.localizedDescription)
     }
 }
 
