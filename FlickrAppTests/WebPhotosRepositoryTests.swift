@@ -22,7 +22,7 @@ class WebPhotosRepositoryTests: XCTestCase {
         webPhotosRepository.photos(for: "Car", page: 1) { (result) in
             switch result {
             case .success(let data):
-                guard let photos = data.photos?.photoArray, !photos.isEmpty else {
+                guard let photos = data.photos?.photos, !photos.isEmpty else {
                     return
                 }
                 // Assert: Verify it's have a data.
