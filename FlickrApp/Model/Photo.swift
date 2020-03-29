@@ -15,15 +15,15 @@ struct Photo: Codable {
         return "http://farm\(farm).static.flickr.com/\(server)/\(id)_\(secret).jpg"
     }
 	enum CodingKeys: String, CodingKey {
-		case farm = "farm"
-		case id = "id"
+		case farm
+		case id
 		case isFamily = "isfamily"
 		case isFriend = "isfriend"
 		case isPublic = "ispublic"
-		case owner = "owner"
-		case secret = "secret"
-		case server = "server"
-		case title = "title"
+		case owner
+		case secret
+		case server
+        case title
 	}
     
 	init(from decoder: Decoder) throws {

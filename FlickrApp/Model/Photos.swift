@@ -18,11 +18,11 @@ struct Photos: Codable {
     
     enum CodingKeys: String, CodingKey {
         
-        case page = "page"
-        case pages = "pages"
+        case page
+        case pages
         case perPage = "perpage"
         case photos = "photo"
-        case total = "total"
+        case total
     }
     
     init(from decoder: Decoder) throws {

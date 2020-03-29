@@ -11,7 +11,7 @@ struct FlickrPhoto: Codable {
 
 	enum CodingKeys: String, CodingKey {
 		case photos
-		case stat = "stat"
+		case stat
 	}
     
 	init(from decoder: Decoder) throws {
